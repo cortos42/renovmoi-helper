@@ -14,12 +14,9 @@ export type Database = {
           construction_year: string
           email: string
           id: string
-          income_range: string | null
           name: string
-          occupancy_status: string | null
           occupants: string
           phone: string
-          planned_works: string[] | null
           postal_code: string
           property_type: string
           submitted_at: string
@@ -28,12 +25,9 @@ export type Database = {
           construction_year: string
           email: string
           id?: string
-          income_range?: string | null
           name: string
-          occupancy_status?: string | null
           occupants: string
           phone: string
-          planned_works?: string[] | null
           postal_code: string
           property_type: string
           submitted_at?: string
@@ -42,12 +36,9 @@ export type Database = {
           construction_year?: string
           email?: string
           id?: string
-          income_range?: string | null
           name?: string
-          occupancy_status?: string | null
           occupants?: string
           phone?: string
-          planned_works?: string[] | null
           postal_code?: string
           property_type?: string
           submitted_at?: string
