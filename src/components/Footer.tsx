@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -76,19 +76,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <Phone size={18} className="text-renovmoi-green mr-3 mt-1 flex-shrink-0" />
-                <span className="text-gray-300">01 23 45 67 89</span>
-              </li>
-              <li className="flex items-start">
                 <Mail size={18} className="text-renovmoi-green mr-3 mt-1 flex-shrink-0" />
-                <span className="text-gray-300">contact@renovmoi.fr</span>
-              </li>
-              <li className="flex items-start">
-                <MapPin size={18} className="text-renovmoi-green mr-3 mt-1 flex-shrink-0" />
-                <span className="text-gray-300">
-                  123 Avenue de la Rénovation<br />
-                  75001 Paris, France
-                </span>
+                <span className="text-gray-300">renovmoi@techni-conseils.com</span>
               </li>
             </ul>
           </div>
