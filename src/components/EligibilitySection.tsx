@@ -29,6 +29,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const EligibilitySection = () => {
   const { toast } = useToast();
@@ -89,7 +90,7 @@ const EligibilitySection = () => {
     setStep(step - 1);
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validation finale
@@ -104,26 +105,57 @@ const EligibilitySection = () => {
     
     setLoading(true);
     
-    // Simuler un envoi de formulaire
-    setTimeout(() => {
-      setLoading(false);
-      toast({
-        title: "Demande envoyée avec succès !",
-        description: "Un expert Renov&moi vous contactera très rapidement.",
-      });
+    try {
+      // Envoyer les données du formulaire à Supabase
+      const { error } = await supabase
+        .from('eligibility_submissions')
+        .insert([
+          {
+            property_type: formData.propertyType,
+            construction_year: formData.constructionYear,
+            occupants: formData.occupants,
+            postal_code: formData.postalCode,
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+          }
+        ]);
       
-      // Réinitialiser le formulaire
-      setFormData({
-        propertyType: '',
-        constructionYear: '',
-        occupants: '',
-        postalCode: '',
-        email: '',
-        phone: '',
-        name: '',
+      if (error) {
+        console.error('Erreur lors de l\'enregistrement des données:', error);
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Demande envoyée avec succès !",
+          description: "Un expert Renov&moi vous contactera très rapidement.",
+        });
+        
+        // Réinitialiser le formulaire
+        setFormData({
+          propertyType: '',
+          constructionYear: '',
+          occupants: '',
+          postalCode: '',
+          email: '',
+          phone: '',
+          name: '',
+        });
+        setStep(1);
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.",
+        variant: "destructive"
       });
-      setStep(1);
-    }, 1500);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
