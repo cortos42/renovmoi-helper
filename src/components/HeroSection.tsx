@@ -16,7 +16,8 @@ const HeroSection = () => {
       {/* Arrière-plan avec gradient */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-renovmoi-green-light/10 to-renovmoi-green/5"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/lovable-uploads/bb95c410-d1f9-4352-9277-e8f9bcff37ab.png')] bg-cover bg-center opacity-10"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('/lovable-uploads/cebb81af-9dc6-4d38-81ee-a1f87ab38e89.png')] bg-cover bg-center opacity-15 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-renovmoi-black/5"></div>
       </div>
       
       <div className="container mx-auto relative z-10 py-20">
@@ -64,8 +65,8 @@ const HeroSection = () => {
             <div className="absolute -top-10 -right-10 w-72 h-72 bg-renovmoi-green/10 rounded-full filter blur-3xl"></div>
             <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden transform rotate-1 card-shadow">
               <img 
-                src="/lovable-uploads/bb95c410-d1f9-4352-9277-e8f9bcff37ab.png" 
-                alt="Maison économe en énergie" 
+                src="/lovable-uploads/cebb81af-9dc6-4d38-81ee-a1f87ab38e89.png" 
+                alt="Maison en rénovation" 
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
