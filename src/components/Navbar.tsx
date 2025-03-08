@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,27 +11,24 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
     setIsMenuOpen(false);
   };
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
+  return <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <Link to="/" className="text-renovmoi-black font-bold text-xl md:text-2xl">
@@ -52,14 +47,8 @@ const Navbar = () => {
         </div>
         
         <div className="hidden md:flex items-center space-x-3">
-          <div className="flex items-center text-renovmoi-black">
-            <Phone size={18} className="text-renovmoi-green mr-2" />
-            <span className="font-medium">01 23 45 67 89</span>
-          </div>
-          <Button 
-            onClick={() => scrollToSection('eligibilite')} 
-            className="cta-button"
-          >
+          
+          <Button onClick={() => scrollToSection('eligibilite')} className="cta-button">
             Vérifiez votre éligibilité
           </Button>
         </div>
@@ -71,8 +60,7 @@ const Navbar = () => {
       </div>
       
       {/* Menu mobile */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white w-full shadow-lg animate-fade-in">
+      {isMenuOpen && <div className="md:hidden bg-white w-full shadow-lg animate-fade-in">
           <div className="container mx-auto py-4 flex flex-col space-y-4">
             <button onClick={() => scrollToSection('services')} className="text-left py-2 border-b border-gray-100">Services</button>
             <button onClick={() => scrollToSection('eligibilite')} className="text-left py-2 border-b border-gray-100">Éligibilité</button>
@@ -83,17 +71,11 @@ const Navbar = () => {
               <Phone size={18} className="text-renovmoi-green mr-2" />
               <span className="font-medium">01 23 45 67 89</span>
             </div>
-            <Button 
-              onClick={() => scrollToSection('eligibilite')} 
-              className="cta-button w-full mt-4"
-            >
+            <Button onClick={() => scrollToSection('eligibilite')} className="cta-button w-full mt-4">
               Vérifiez votre éligibilité
             </Button>
           </div>
-        </div>
-      )}
-    </nav>
-  );
+        </div>}
+    </nav>;
 };
-
 export default Navbar;
