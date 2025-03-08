@@ -30,6 +30,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { Checkbox } from "@/components/ui/checkbox";
 
 const EligibilitySection = () => {
   const { toast } = useToast();
@@ -42,6 +43,9 @@ const EligibilitySection = () => {
     email: '',
     phone: '',
     name: '',
+    occupancyStatus: '',
+    plannedWorks: [] as string[],
+    incomeRange: '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -60,10 +64,26 @@ const EligibilitySection = () => {
     });
   };
 
+  const handleCheckboxChange = (value: string, checked: boolean) => {
+    if (checked) {
+      // Ajouter l'item au tableau
+      setFormData({
+        ...formData,
+        plannedWorks: [...formData.plannedWorks, value]
+      });
+    } else {
+      // Retirer l'item du tableau
+      setFormData({
+        ...formData,
+        plannedWorks: formData.plannedWorks.filter(item => item !== value)
+      });
+    }
+  };
+
   const nextStep = () => {
     if (step === 1) {
       // Valider première étape
-      if (!formData.propertyType || !formData.constructionYear) {
+      if (!formData.propertyType || !formData.constructionYear || !formData.occupancyStatus) {
         toast({
           title: "Information manquante",
           description: "Veuillez remplir tous les champs obligatoires.",
@@ -73,7 +93,7 @@ const EligibilitySection = () => {
       }
     } else if (step === 2) {
       // Valider deuxième étape
-      if (!formData.occupants || !formData.postalCode) {
+      if (!formData.occupants || !formData.postalCode || formData.plannedWorks.length === 0 || !formData.incomeRange) {
         toast({
           title: "Information manquante",
           description: "Veuillez remplir tous les champs obligatoires.",
@@ -118,6 +138,9 @@ const EligibilitySection = () => {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
+            occupancy_status: formData.occupancyStatus,
+            planned_works: formData.plannedWorks,
+            income_range: formData.incomeRange,
           }
         ]);
       
@@ -143,6 +166,9 @@ const EligibilitySection = () => {
           email: '',
           phone: '',
           name: '',
+          occupancyStatus: '',
+          plannedWorks: [],
+          incomeRange: '',
         });
         setStep(1);
       }
@@ -223,6 +249,23 @@ const EligibilitySection = () => {
                               </SelectContent>
                             </Select>
                           </div>
+
+                          <div>
+                            <Label htmlFor="occupancyStatus">Dans ce logement, vous êtes <span className="text-red-500">*</span></Label>
+                            <Select
+                              value={formData.occupancyStatus}
+                              onValueChange={(value) => handleSelectChange('occupancyStatus', value)}
+                            >
+                              <SelectTrigger className="w-full mt-2">
+                                <SelectValue placeholder="Sélectionnez votre statut d'occupation" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="owner-occupant">Propriétaire occupant</SelectItem>
+                                <SelectItem value="owner-secondary">Propriétaire d'une résidence secondaire</SelectItem>
+                                <SelectItem value="tenant">Locataire</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
                         
                         <div className="pt-4 flex justify-end">
@@ -237,7 +280,7 @@ const EligibilitySection = () => {
                       </div>
                     )}
                     
-                    {/* Étape 2: Situation personnelle */}
+                    {/* Étape 2: Situation personnelle et travaux */}
                     {step === 2 && (
                       <div className="space-y-6 animate-fade-in">
                         <h3 className="text-xl font-semibold mb-4 flex items-center">
@@ -275,6 +318,64 @@ const EligibilitySection = () => {
                               onChange={handleChange}
                               className="mt-2"
                             />
+                          </div>
+
+                          <div>
+                            <Label className="mb-2 block">Quels travaux envisagez-vous de réaliser ? <span className="text-red-500">*</span></Label>
+                            <div className="space-y-2 mt-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="isolation" 
+                                  checked={formData.plannedWorks.includes('isolation')}
+                                  onCheckedChange={(checked) => handleCheckboxChange('isolation', checked as boolean)}
+                                />
+                                <Label htmlFor="isolation" className="cursor-pointer">Isolation</Label>
+                              </div>
+                              
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="chauffage" 
+                                  checked={formData.plannedWorks.includes('chauffage')}
+                                  onCheckedChange={(checked) => handleCheckboxChange('chauffage', checked as boolean)}
+                                />
+                                <Label htmlFor="chauffage" className="cursor-pointer">Chauffage</Label>
+                              </div>
+                              
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="ventilation" 
+                                  checked={formData.plannedWorks.includes('ventilation')}
+                                  onCheckedChange={(checked) => handleCheckboxChange('ventilation', checked as boolean)}
+                                />
+                                <Label htmlFor="ventilation" className="cursor-pointer">Ventilation</Label>
+                              </div>
+                              
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="fenetres" 
+                                  checked={formData.plannedWorks.includes('fenetres')}
+                                  onCheckedChange={(checked) => handleCheckboxChange('fenetres', checked as boolean)}
+                                />
+                                <Label htmlFor="fenetres" className="cursor-pointer">Porte/fenêtre</Label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <Label htmlFor="incomeRange">Pour déterminer vos aides, nous avons besoin d'une fourchette approximative de votre revenu fiscal <span className="text-red-500">*</span></Label>
+                            <Select
+                              value={formData.incomeRange}
+                              onValueChange={(value) => handleSelectChange('incomeRange', value)}
+                            >
+                              <SelectTrigger className="w-full mt-2">
+                                <SelectValue placeholder="Sélectionnez votre fourchette de revenu" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="below-20k">Inférieur à 20 000€</SelectItem>
+                                <SelectItem value="20k-40k">Entre 20 000€ et 40 000€</SelectItem>
+                                <SelectItem value="above-40k">Supérieur à 40 000€</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                         </div>
                         
