@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Mail, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Facebook } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -15,17 +14,13 @@ const Footer = () => {
               Service d'accompagnement complet pour vos projets de rénovation énergétique. Plus de 10 ans d'expertise à votre service.
             </p>
             <div className="flex space-x-3">
-              <a href="#" className="text-gray-300 hover:text-renovmoi-green transition-colors">
+              <a 
+                href="https://www.facebook.com/diagnosicsimmobilierssaintetienne/" 
+                className="text-gray-300 hover:text-renovmoi-green transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-renovmoi-green transition-colors">
-                <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-renovmoi-green transition-colors">
-                <Linkedin size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-renovmoi-green transition-colors">
-                <Twitter size={20} />
               </a>
             </div>
           </div>
