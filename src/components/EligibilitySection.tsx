@@ -1,39 +1,18 @@
-
 import React, { useState } from 'react';
-import { 
-  CheckCircle2, 
-  HelpCircle, 
-  Home, 
-  Users, 
-  Calendar, 
-  Thermometer 
-} from 'lucide-react';
-import { 
-  Card, 
-  CardContent 
-} from '@/components/ui/card';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { CheckCircle2, HelpCircle, Home, Users, Calendar, Thermometer } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Checkbox } from "@/components/ui/checkbox";
-
 const EligibilitySection = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     propertyType: '',
@@ -45,25 +24,25 @@ const EligibilitySection = () => {
     name: '',
     occupancyStatus: '',
     plannedWorks: [] as string[],
-    incomeRange: '',
+    incomeRange: ''
   });
   const [loading, setLoading] = useState(false);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const {
+      name,
+      value
+    } = e.target;
     setFormData({
       ...formData,
       [name]: value
     });
   };
-
   const handleSelectChange = (name: string, value: string) => {
     setFormData({
       ...formData,
       [name]: value
     });
   };
-
   const handleCheckboxChange = (value: string, checked: boolean) => {
     if (checked) {
       // Ajouter l'item au tableau
@@ -79,7 +58,6 @@ const EligibilitySection = () => {
       });
     }
   };
-
   const nextStep = () => {
     if (step === 1) {
       // Valider première étape
@@ -102,17 +80,14 @@ const EligibilitySection = () => {
         return;
       }
     }
-    
     setStep(step + 1);
   };
-
   const prevStep = () => {
     setStep(step - 1);
   };
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation finale
     if (!formData.email || !formData.phone || !formData.name) {
       toast({
@@ -122,28 +97,23 @@ const EligibilitySection = () => {
       });
       return;
     }
-    
     setLoading(true);
-    
     try {
       // Envoyer les données du formulaire à Supabase
-      const { error } = await supabase
-        .from('eligibility_submissions')
-        .insert([
-          {
-            property_type: formData.propertyType,
-            construction_year: formData.constructionYear,
-            occupants: formData.occupants,
-            postal_code: formData.postalCode,
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            occupancy_status: formData.occupancyStatus,
-            planned_works: formData.plannedWorks,
-            income_range: formData.incomeRange,
-          }
-        ]);
-      
+      const {
+        error
+      } = await supabase.from('eligibility_submissions').insert([{
+        property_type: formData.propertyType,
+        construction_year: formData.constructionYear,
+        occupants: formData.occupants,
+        postal_code: formData.postalCode,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        occupancy_status: formData.occupancyStatus,
+        planned_works: formData.plannedWorks,
+        income_range: formData.incomeRange
+      }]);
       if (error) {
         console.error('Erreur lors de l\'enregistrement des données:', error);
         toast({
@@ -154,9 +124,9 @@ const EligibilitySection = () => {
       } else {
         toast({
           title: "Demande envoyée avec succès !",
-          description: "Un expert Renov&moi vous contactera très rapidement.",
+          description: "Un expert Renov&moi vous contactera très rapidement."
         });
-        
+
         // Réinitialiser le formulaire
         setFormData({
           propertyType: '',
@@ -168,7 +138,7 @@ const EligibilitySection = () => {
           name: '',
           occupancyStatus: '',
           plannedWorks: [],
-          incomeRange: '',
+          incomeRange: ''
         });
         setStep(1);
       }
@@ -183,15 +153,11 @@ const EligibilitySection = () => {
       setLoading(false);
     }
   };
-
-  return (
-    <section id="eligibilite" className="py-20 gradient-green-bg">
+  return <section id="eligibilite" className="py-20 gradient-green-bg">
       <div className="container mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="section-title">Vérifiez votre éligibilité aux aides</h2>
-          <p className="text-lg text-renovmoi-black/80">
-            En quelques clics, découvrez jusqu'à combien vous pouvez obtenir pour financer vos travaux de rénovation énergétique. Réponse immédiate et sans engagement.
-          </p>
+          
         </div>
         
         <div className="max-w-4xl mx-auto">
@@ -206,8 +172,7 @@ const EligibilitySection = () => {
                 <TabsContent value="form">
                   <form onSubmit={handleSubmit}>
                     {/* Étape 1: Type de logement */}
-                    {step === 1 && (
-                      <div className="space-y-6 animate-fade-in">
+                    {step === 1 && <div className="space-y-6 animate-fade-in">
                         <h3 className="text-xl font-semibold mb-4 flex items-center">
                           <Home className="mr-2 text-renovmoi-green" />
                           Votre logement
@@ -216,10 +181,7 @@ const EligibilitySection = () => {
                         <div className="space-y-4">
                           <div>
                             <Label htmlFor="propertyType">Type de logement <span className="text-red-500">*</span></Label>
-                            <Select
-                              value={formData.propertyType}
-                              onValueChange={(value) => handleSelectChange('propertyType', value)}
-                            >
+                            <Select value={formData.propertyType} onValueChange={value => handleSelectChange('propertyType', value)}>
                               <SelectTrigger className="w-full mt-2">
                                 <SelectValue placeholder="Sélectionnez votre type de logement" />
                               </SelectTrigger>
@@ -233,10 +195,7 @@ const EligibilitySection = () => {
                           
                           <div>
                             <Label htmlFor="constructionYear">Année de construction <span className="text-red-500">*</span></Label>
-                            <Select
-                              value={formData.constructionYear}
-                              onValueChange={(value) => handleSelectChange('constructionYear', value)}
-                            >
+                            <Select value={formData.constructionYear} onValueChange={value => handleSelectChange('constructionYear', value)}>
                               <SelectTrigger className="w-full mt-2">
                                 <SelectValue placeholder="Sélectionnez l'année de construction" />
                               </SelectTrigger>
@@ -252,10 +211,7 @@ const EligibilitySection = () => {
 
                           <div>
                             <Label htmlFor="occupancyStatus">Dans ce logement, vous êtes <span className="text-red-500">*</span></Label>
-                            <Select
-                              value={formData.occupancyStatus}
-                              onValueChange={(value) => handleSelectChange('occupancyStatus', value)}
-                            >
+                            <Select value={formData.occupancyStatus} onValueChange={value => handleSelectChange('occupancyStatus', value)}>
                               <SelectTrigger className="w-full mt-2">
                                 <SelectValue placeholder="Sélectionnez votre statut d'occupation" />
                               </SelectTrigger>
@@ -269,20 +225,14 @@ const EligibilitySection = () => {
                         </div>
                         
                         <div className="pt-4 flex justify-end">
-                          <Button 
-                            type="button" 
-                            onClick={nextStep}
-                            className="cta-button"
-                          >
+                          <Button type="button" onClick={nextStep} className="cta-button">
                             Continuer
                           </Button>
                         </div>
-                      </div>
-                    )}
+                      </div>}
                     
                     {/* Étape 2: Situation personnelle et travaux */}
-                    {step === 2 && (
-                      <div className="space-y-6 animate-fade-in">
+                    {step === 2 && <div className="space-y-6 animate-fade-in">
                         <h3 className="text-xl font-semibold mb-4 flex items-center">
                           <Users className="mr-2 text-renovmoi-green" />
                           Votre situation
@@ -291,10 +241,7 @@ const EligibilitySection = () => {
                         <div className="space-y-4">
                           <div>
                             <Label htmlFor="occupants">Nombre d'occupants <span className="text-red-500">*</span></Label>
-                            <Select
-                              value={formData.occupants}
-                              onValueChange={(value) => handleSelectChange('occupants', value)}
-                            >
+                            <Select value={formData.occupants} onValueChange={value => handleSelectChange('occupants', value)}>
                               <SelectTrigger className="w-full mt-2">
                                 <SelectValue placeholder="Sélectionnez le nombre d'occupants" />
                               </SelectTrigger>
@@ -310,52 +257,29 @@ const EligibilitySection = () => {
                           
                           <div>
                             <Label htmlFor="postalCode">Code postal <span className="text-red-500">*</span></Label>
-                            <Input
-                              id="postalCode"
-                              name="postalCode"
-                              placeholder="Entrez votre code postal"
-                              value={formData.postalCode}
-                              onChange={handleChange}
-                              className="mt-2"
-                            />
+                            <Input id="postalCode" name="postalCode" placeholder="Entrez votre code postal" value={formData.postalCode} onChange={handleChange} className="mt-2" />
                           </div>
 
                           <div>
                             <Label className="mb-2 block">Quels travaux envisagez-vous de réaliser ? <span className="text-red-500">*</span></Label>
                             <div className="space-y-2 mt-2">
                               <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="isolation" 
-                                  checked={formData.plannedWorks.includes('isolation')}
-                                  onCheckedChange={(checked) => handleCheckboxChange('isolation', checked as boolean)}
-                                />
+                                <Checkbox id="isolation" checked={formData.plannedWorks.includes('isolation')} onCheckedChange={checked => handleCheckboxChange('isolation', checked as boolean)} />
                                 <Label htmlFor="isolation" className="cursor-pointer">Isolation</Label>
                               </div>
                               
                               <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="chauffage" 
-                                  checked={formData.plannedWorks.includes('chauffage')}
-                                  onCheckedChange={(checked) => handleCheckboxChange('chauffage', checked as boolean)}
-                                />
+                                <Checkbox id="chauffage" checked={formData.plannedWorks.includes('chauffage')} onCheckedChange={checked => handleCheckboxChange('chauffage', checked as boolean)} />
                                 <Label htmlFor="chauffage" className="cursor-pointer">Chauffage</Label>
                               </div>
                               
                               <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="ventilation" 
-                                  checked={formData.plannedWorks.includes('ventilation')}
-                                  onCheckedChange={(checked) => handleCheckboxChange('ventilation', checked as boolean)}
-                                />
+                                <Checkbox id="ventilation" checked={formData.plannedWorks.includes('ventilation')} onCheckedChange={checked => handleCheckboxChange('ventilation', checked as boolean)} />
                                 <Label htmlFor="ventilation" className="cursor-pointer">Ventilation</Label>
                               </div>
                               
                               <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="fenetres" 
-                                  checked={formData.plannedWorks.includes('fenetres')}
-                                  onCheckedChange={(checked) => handleCheckboxChange('fenetres', checked as boolean)}
-                                />
+                                <Checkbox id="fenetres" checked={formData.plannedWorks.includes('fenetres')} onCheckedChange={checked => handleCheckboxChange('fenetres', checked as boolean)} />
                                 <Label htmlFor="fenetres" className="cursor-pointer">Porte/fenêtre</Label>
                               </div>
                             </div>
@@ -363,10 +287,7 @@ const EligibilitySection = () => {
 
                           <div>
                             <Label htmlFor="incomeRange">Pour déterminer vos aides, nous avons besoin d'une fourchette approximative de votre revenu fiscal <span className="text-red-500">*</span></Label>
-                            <Select
-                              value={formData.incomeRange}
-                              onValueChange={(value) => handleSelectChange('incomeRange', value)}
-                            >
+                            <Select value={formData.incomeRange} onValueChange={value => handleSelectChange('incomeRange', value)}>
                               <SelectTrigger className="w-full mt-2">
                                 <SelectValue placeholder="Sélectionnez votre fourchette de revenu" />
                               </SelectTrigger>
@@ -380,27 +301,17 @@ const EligibilitySection = () => {
                         </div>
                         
                         <div className="pt-4 flex justify-between">
-                          <Button 
-                            type="button" 
-                            variant="outline" 
-                            onClick={prevStep}
-                          >
+                          <Button type="button" variant="outline" onClick={prevStep}>
                             Retour
                           </Button>
-                          <Button 
-                            type="button" 
-                            onClick={nextStep}
-                            className="cta-button"
-                          >
+                          <Button type="button" onClick={nextStep} className="cta-button">
                             Continuer
                           </Button>
                         </div>
-                      </div>
-                    )}
+                      </div>}
                     
                     {/* Étape 3: Coordonnées */}
-                    {step === 3 && (
-                      <div className="space-y-6 animate-fade-in">
+                    {step === 3 && <div className="space-y-6 animate-fade-in">
                         <h3 className="text-xl font-semibold mb-4 flex items-center">
                           <CheckCircle2 className="mr-2 text-renovmoi-green" />
                           Vos coordonnées
@@ -409,60 +320,29 @@ const EligibilitySection = () => {
                         <div className="space-y-4">
                           <div>
                             <Label htmlFor="name">Nom complet <span className="text-red-500">*</span></Label>
-                            <Input
-                              id="name"
-                              name="name"
-                              placeholder="Entrez votre nom complet"
-                              value={formData.name}
-                              onChange={handleChange}
-                              className="mt-2"
-                            />
+                            <Input id="name" name="name" placeholder="Entrez votre nom complet" value={formData.name} onChange={handleChange} className="mt-2" />
                           </div>
                           
                           <div>
                             <Label htmlFor="email">Adresse e-mail <span className="text-red-500">*</span></Label>
-                            <Input
-                              id="email"
-                              name="email"
-                              type="email"
-                              placeholder="Entrez votre adresse e-mail"
-                              value={formData.email}
-                              onChange={handleChange}
-                              className="mt-2"
-                            />
+                            <Input id="email" name="email" type="email" placeholder="Entrez votre adresse e-mail" value={formData.email} onChange={handleChange} className="mt-2" />
                           </div>
                           
                           <div>
                             <Label htmlFor="phone">Téléphone <span className="text-red-500">*</span></Label>
-                            <Input
-                              id="phone"
-                              name="phone"
-                              placeholder="Entrez votre numéro de téléphone"
-                              value={formData.phone}
-                              onChange={handleChange}
-                              className="mt-2"
-                            />
+                            <Input id="phone" name="phone" placeholder="Entrez votre numéro de téléphone" value={formData.phone} onChange={handleChange} className="mt-2" />
                           </div>
                         </div>
                         
                         <div className="pt-4 flex justify-between">
-                          <Button 
-                            type="button" 
-                            variant="outline" 
-                            onClick={prevStep}
-                          >
+                          <Button type="button" variant="outline" onClick={prevStep}>
                             Retour
                           </Button>
-                          <Button 
-                            type="submit" 
-                            className="cta-button"
-                            disabled={loading}
-                          >
+                          <Button type="submit" className="cta-button" disabled={loading}>
                             {loading ? "Envoi en cours..." : "Vérifier mon éligibilité"}
                           </Button>
                         </div>
-                      </div>
-                    )}
+                      </div>}
                   </form>
                 </TabsContent>
                 
@@ -517,8 +397,6 @@ const EligibilitySection = () => {
           </Card>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default EligibilitySection;
