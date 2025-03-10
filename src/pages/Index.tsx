@@ -9,6 +9,7 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import FaqSection from '@/components/FaqSection';
 import StickyContactButton from '@/components/StickyContactButton';
 import Footer from '@/components/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
   // Mise à jour du titre de la page et des méta-données
@@ -36,6 +37,7 @@ const Index = () => {
       <FaqSection />
       <StickyContactButton />
       <Footer />
+      <Toaster />
     </div>
   );
 };
