@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Accordion,
@@ -36,7 +35,7 @@ const faqs = [
   {
     id: "q6",
     question: "Combien de temps durent les travaux de rénovation énergétique ?",
-    answer: "La durée des travaux varie selon leur nature et l'ampleur du projet. Une rénovation par étapes peut s'étaler sur quelques jours à quelques semaines, tandis qu'une rénovation globale peut prendre plusieurs mois. Nous établissons un planning précis avec vous dès le début du projet."
+    answer: "La durée des travaux varie selon leur nature et l'ampleur du projet. Une globale peut prendre plusieurs mois. Nous établissons un planning précis avec vous dès le début du projet."
   }
 ];
 
