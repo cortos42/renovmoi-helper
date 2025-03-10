@@ -9,6 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      callback_requests: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          phone: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string
+          status?: string
+        }
+        Relationships: []
+      }
       eligibility_submissions: {
         Row: {
           construction_year: string

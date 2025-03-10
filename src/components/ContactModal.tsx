@@ -35,18 +35,13 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
     setIsSubmitting(true);
     
     try {
-      // Save contact request to Supabase
+      // Save contact request to the new callback_requests table
       const { error } = await supabase
-        .from('eligibility_submissions')
+        .from('callback_requests')
         .insert([
           { 
             name, 
-            phone,
-            email: "",  // Required by schema but not needed for callback
-            construction_year: "",  // Required by schema
-            occupants: "1",  // Required by schema
-            postal_code: "",  // Required by schema
-            property_type: "callback_request"  // Mark this as a callback request
+            phone
           }
         ]);
         
