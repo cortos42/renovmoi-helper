@@ -7,6 +7,7 @@ import EligibilitySection from '@/components/EligibilitySection';
 import AdvantagesSection from '@/components/AdvantagesSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import FaqSection from '@/components/FaqSection';
+import StickyContactButton from '@/components/StickyContactButton';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -33,6 +34,7 @@ const Index = () => {
       <AdvantagesSection />
       <TestimonialsSection />
       <FaqSection />
+      <StickyContactButton />
       <Footer />
     </div>
   );
