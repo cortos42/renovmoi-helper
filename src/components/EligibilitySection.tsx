@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Checkbox } from "@/components/ui/checkbox";
+
 const EligibilitySection = () => {
   const {
     toast
@@ -387,7 +388,7 @@ const EligibilitySection = () => {
                     <div className="bg-renovmoi-green/10 p-4 rounded-lg flex items-start mt-6">
                       <HelpCircle className="text-renovmoi-green mr-3 flex-shrink-0 mt-1" size={20} />
                       <p className="text-sm">
-                        Besoin d'aide pour déterminer votre éligibilité ? Contactez-nous au <span className="font-medium">01 23 45 67 89</span> ou remplissez le formulaire pour être rappelé par un conseiller.
+                        Besoin d'aide pour déterminer votre éligibilité ? Contactez-nous par mail ou remplissez le formulaire pour être rappelé par un conseiller.
                       </p>
                     </div>
                   </div>
@@ -399,4 +400,5 @@ const EligibilitySection = () => {
       </div>
     </section>;
 };
+
 export default EligibilitySection;
